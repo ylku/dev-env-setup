@@ -1,0 +1,37 @@
+alias vi='vim'
+alias nvi='nvim'
+# enable color support of ls and also add handy aliases
+alias ls='ls -Gp --color=auto'
+alias cp='cp -iv'                           # Preferred 'cp' implementation
+alias mv='mv -iv'                           # Preferred 'mv' implementation
+alias mkdir='mkdir -pv'                     # Preferred 'mkdir' implementation
+alias lll='ls -FGlAhp'
+
+cd() { builtin cd "$@"; ll; }               # Always list directory contents upon 'cd'
+alias cd..='cd ../'                         # Go back 1 directory level (for fast typers)
+alias ..='cd ../'                           # Go back 1 directory level
+alias ...='cd ../../'                       # Go back 2 directory levels
+alias .3='cd ../../../'                     # Go back 3 directory levels
+alias .4='cd ../../../../'                  # Go back 4 directory levels
+alias .5='cd ../../../../../'               # Go back 5 directory levels
+alias .6='cd ../../../../../../'            # Go back 6 directory levels
+alias cdh="cd ~"                              # ~:            Go Home
+alias path='echo -e ${PATH//:/\\n}'         # path:         Echo all executable Paths
+alias show_options='shopt'                  # Show_options: display bash options settings
+mcd () { mkdir -p "$1" && cd "$1"; }        # mcd:          Makes new Dir and jumps inside
+
+
+#alias dir='dir --color=auto'
+#alias vdir='vdir --color=auto'
+
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+# User specific aliases and functions
+alias grep='grep --exclude-dir={.bzr,CVS,.git,.hg,.svn} --color=auto'
+alias grepex='grep -Ir -n --exclude=cscope.out --exclude=tags --exclude-dir={.bzr,CVS,.git,.hg,.svn} --color=auto'
+alias grepc='grep -Ir -n --exclude=cscope.out --exclude=tags --exclude-dir={.bzr,CVS,.git,.hg,.svn} --include=*\.{c,h}* --color=auto'
+alias grepcpp='grep -Ir -n --exclude=cscope.out --exclude=tags --exclude-dir={.bzr,CVS,.git,.hg,.svn} --include=*\.{cpp,hpp}* --color=auto'

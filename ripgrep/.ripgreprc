@@ -1,0 +1,18 @@
+# Don't let ripgrep vomit really long lines to my terminal, and show a preview.
+--max-columns=150
+--max-columns-preview
+
+# Using glob patterns to include/exclude files or folders
+--glob=!git/*
+
+--column
+
+--line-number
+
+# Set the colors.
+# Valid format is '(path|line|column|match):(fg|bg|style):(value)'
+--colors=line:style:bold
+
+# Because who cares about case!?
+--smart-case
+
