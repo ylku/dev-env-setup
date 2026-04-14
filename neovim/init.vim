@@ -31,13 +31,20 @@ Plug 'tomtom/tlib_vim'
 Plug 'morhetz/gruvbox'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'junegunn/seoul256.vim'
+Plug 'chrisbra/Colorizer'
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+Plug 'pearofducks/ansible-vim'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'tpope/vim-fugitive'
 
 " Initialize plugin system
 call plug#end()
 
-colorscheme gruvbox
+colorscheme catppuccin-frappe " catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
+"colorscheme gruvbox
 "colorscheme seoul256
 
 function! HasPaste()
@@ -48,6 +55,7 @@ function! HasPaste()
     endif
 endfunction
 
+set termguicolors
 
 "----------------------------------------------------------------------------
 " General setting
@@ -81,6 +89,10 @@ set novisualbell        " Disable visual bell "
 
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 
+" opensips vim setting
+au BufNewFile,BufRead *opensips*.cfg,*.{cfg,os,osips,opensips} set filetype=opensips
+
+set nofixendofline
 "----------------------------------------------------------------------------
 "           TAB setting
 "----------------------------------------------------------------------------
@@ -101,9 +113,9 @@ au FileType Makefile set noexpandtab " Do not expandtab while type is Makefile
 " Visualizing tabs
 syntax match Tab /\t/
 hi Tab gui=underline guifg=blue ctermbg=blue
-
-set list
 set listchars=tab:>-
+noremap <F11> :set list! list? <CR>
+
 
 "----------------------------------------------------------------------------
 "               Format automatically
@@ -164,7 +176,7 @@ nmap <leader>hl :set hls!<BAR>set hls?<CR>
 
 " Toggle on/off paste mode
 "map <leader>ps :set paste!<BAR>set paste?<CR>
-set pastetoggle=<leader>ps
+"set pastetoggle=<leader>ps
 
 " +--------------------------------+
 " |         split windows          |
@@ -193,6 +205,8 @@ nmap < v<<ESC>
 " +--------------------------------+
 " |             ctags              |
 " +--------------------------------+
+set tags=./tags,tags;/
+
 " Ctrl+T, Navigating to the function definition from ‘function call’
 map <C-N> <C-T>
 " Ctrl+], Returning back again to function call from the definition
@@ -202,9 +216,9 @@ map <C-M> <C-]>
 " |            Cscope              |
 " +--------------------------------+
 
-if has("cscope") && filereadable("/usr/bin/cscope")
+if has("cscope") && (filereadable("/opt/homebrew/bin/cscope") || filereadable("/usr/bin/cscope"))
     "nmap <F5> :call UpdateCscopeDatabase() <CR>
-    set csprg=/usr/bin/cscope
+    set csprg=/opt/homebrew/bin/cscope
     set csto=0
     set cst
 
@@ -257,7 +271,6 @@ nmap <leader>lns [I
 "             Encoding
 "----------------------------------------------------------------------------
 set encoding=utf-8
-set termencoding=utf-8
 set fileencoding=utf-8
 
 "----------------------------------------------------------------------------
@@ -327,11 +340,6 @@ nmap <F12> :RG<CR>
 " set focus to TagBar when opening it
 let g:tagbar_autofocus = 1
 
-" +--------------------------------+
-" |      YouCompleteMe             |
-" +--------------------------------+
-"let g:ycm_global_ycm_extra_conf = '/home/bku/.ycm_extra_conf.py'
-"let g:ycm_confirm_extra_conf = 0
 
 " +--------------------------------+
 " | vim-cpp-enhanced-highlight     |
@@ -340,3 +348,40 @@ let g:tagbar_autofocus = 1
 let g:cpp_class_scope_highlight = 0
 let g:cpp_member_variable_highlight = 1
 
+:let g:colorizer_auto_filetype='log'
+
+let g:go_metalinter_command = "golangci-lint"
+let g:go_metalinter_enabled = ['vet', 'errcheck', 'staticcheck', 'gosimple']
+let g:tagbar_type_go = {
+            \ 'ctagstype' : 'go',
+            \ 'kinds'     : [
+            \ 'p:package',
+            \ 'i:imports:1',
+            \ 'c:constants',
+            \ 'v:variables',
+            \ 't:types',
+            \ 'n:interfaces',
+            \ 'w:fields',
+            \ 'e:embedded',
+            \ 'm:methods',
+            \ 'r:constructor',
+            \ 'f:functions'
+            \ ],
+            \ 'sro' : '.',
+            \ 'kind2scope' : {
+            \ 't' : 'ctype',
+            \ 'n' : 'ntype'
+            \ },
+            \ 'scope2kind' : {
+            \ 'ctype' : 't',
+            \ 'ntype' : 'n'
+            \ },
+            \ 'ctagsbin'  : 'gotags',
+            \ 'ctagsargs' : '-sort -silent'
+            \ }
+
+" +--------------------------------+
+" | vim-go                         |
+" +--------------------------------+
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
